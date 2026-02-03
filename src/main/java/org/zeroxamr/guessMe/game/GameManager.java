@@ -25,16 +25,6 @@ public class GameManager {
 
     public GameManager(GuessMe plugin) {
         this.plugin = plugin;
-
-        String configGameMapName = "mini-93AO"; // run verify function that it's an actual game ID
-
-        if (setupEnvironment()) {
-            if (mapGameInstances(configGameID)) {
-
-            }
-        }
-
-//        loadDeveloperMaps();
     }
 
     private boolean mapGameInstances(String configGameID) {

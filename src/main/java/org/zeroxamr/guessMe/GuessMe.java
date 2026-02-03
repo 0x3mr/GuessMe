@@ -9,6 +9,7 @@ import org.zeroxamr.guessMe.database.DatabaseManager;
 import org.zeroxamr.guessMe.game.GameManager;
 
 public final class GuessMe extends JavaPlugin implements Listener {
+    private GameManager gameManager = null;
     private DatabaseManager databaseInstance = null;
 
     @Override
@@ -19,7 +20,7 @@ public final class GuessMe extends JavaPlugin implements Listener {
         getServer().getPluginManager().registerEvents(this, this);
         getLogger().info("GuessMe has been enabled!");
 
-        GameManager gameManager = new GameManager(this);
+        gameManager = new GameManager(this);
     }
 
     @Override
@@ -30,4 +31,5 @@ public final class GuessMe extends JavaPlugin implements Listener {
     public DatabaseManager getDatabase() {
         return databaseInstance;
     }
+    public GameManager getGameManager() { return gameManager; }
 }
