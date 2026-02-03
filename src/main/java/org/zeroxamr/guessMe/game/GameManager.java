@@ -27,90 +27,90 @@ public class GameManager {
         this.plugin = plugin;
     }
 
-    private boolean mapGameInstances(String configGameID) {
-        String sql = "SELECT * FROM Arenas";
-
-        try (Connection connection = plugin.getDatabase().getDataSource().getConnection();
-             PreparedStatement ps = connection.prepareStatement(sql);
-             ResultSet result = ps.executeQuery()) {
-
-            while (result.next()) {
-                String gameMapName = result.getString("gameMapName");
-
-                // Not 'Lotus' but the chosen theme from the config!
-                if (Objects.equals(gameMapName, "Lotus")) {
-
-                    // Not '101' but based on preset amount of instances in config!
-                    for (int i = 1; i < 101; i++) {
-                        String gameID = "mini-" + Utilities.randomNumberGenerator(3) + Utilities.randomLetterGenerator(2);
-                        String gameAdmin = result.getString("gameAdmin");
-                        // String gameStatus is set to IDLE by default
-
-                        int gameMinPlayers = 3; // Should be read from config (should have checks when reading value from config)
-                        int gameMaxPlayers = Integer.parseInt(result.getString("gameMaxPlayers"));
-
-                        Location[] playerLocations = Utilities.deserializeLocations(result.getString("playerLocations"));
-                        Location waitingLocation = Utilities.deserializeLocations(result.getString("waitingLocation"))[0];
-                        Location returnLobby = null; // Should be set from config or settable by ingame command
-
-                        String gameMapSchematic = result.getString("gameMapSchematic");
-
-                        Game gameInstance = new Game()
-
-                        int coordinateSlot = getNextReservableCoordSlot();
-
-                        if (coordinateSlot == -1) {
-                            getLogger().info("GameManager: Reached maximum amount of games created!");
-                            return;
-                        }
-
-                        Game newGame = new Game(
-                                gameID,
-                                gameStatus,
-                                gameMapName,
-                                gameMapSchematic,
-                                playerLocations,
-                                waitingLocation,
-                                returnLobby,
-                                coordinateSlot
-                        );
-
-                        games.put(gameID, newGame);
-
-                        boolean creation = games.containsKey(gameID);
-                        boolean construct = constructInstance(games.get(gameID));
-
-                        getLogger().info("first: " + creation + " second: " + construct);
-
-                        if (creation && construct) {
-                            loadedGamesIDs.add(gameID);
-                            found = true;
-                        }
-                    }
-
-                    break;
-                }
-            }
-
-                    if (!found) {
-                        getLogger().info("GameManager: No game maps exists within the database.");
-                    } else {
-                        StringBuilder tempString = new StringBuilder();
-                        getLogger().info("GameManager: Successfully loaded maps: ");
-
-                        for (int i = 0; i < loadedGamesIDs.size(); i++) {
-                            tempString.append(loadedGamesIDs.get(i));
-                            if (i + 1 != loadedGamesIDs.size()) {
-                                tempString.append(", ");
-                            }
-                        }
-
-                        getLogger().info(String.valueOf(tempString));
-                    }
-        } catch (SQLException error) {
-            error.printStackTrace();
-        }
-    }
+//    private boolean mapGameInstances(String configGameID) {
+//        String sql = "SELECT * FROM Arenas";
+//
+//        try (Connection connection = plugin.getDatabase().getDataSource().getConnection();
+//             PreparedStatement ps = connection.prepareStatement(sql);
+//             ResultSet result = ps.executeQuery()) {
+//
+//            while (result.next()) {
+//                String gameMapName = result.getString("gameMapName");
+//
+//                // Not 'Lotus' but the chosen theme from the config!
+//                if (Objects.equals(gameMapName, "Lotus")) {
+//
+//                    // Not '101' but based on preset amount of instances in config!
+//                    for (int i = 1; i < 101; i++) {
+//                        String gameID = "mini-" + Utilities.randomNumberGenerator(3) + Utilities.randomLetterGenerator(2);
+//                        String gameAdmin = result.getString("gameAdmin");
+//                        // String gameStatus is set to IDLE by default
+//
+//                        int gameMinPlayers = 3; // Should be read from config (should have checks when reading value from config)
+//                        int gameMaxPlayers = Integer.parseInt(result.getString("gameMaxPlayers"));
+//
+//                        Location[] playerLocations = Utilities.deserializeLocations(result.getString("playerLocations"));
+//                        Location waitingLocation = Utilities.deserializeLocations(result.getString("waitingLocation"))[0];
+//                        Location returnLobby = null; // Should be set from config or settable by ingame command
+//
+//                        String gameMapSchematic = result.getString("gameMapSchematic");
+//
+//                        Game gameInstance = new Game()
+//
+//                        int coordinateSlot = getNextReservableCoordSlot();
+//
+//                        if (coordinateSlot == -1) {
+//                            getLogger().info("GameManager: Reached maximum amount of games created!");
+//                            return;
+//                        }
+//
+//                        Game newGame = new Game(
+//                                gameID,
+//                                gameStatus,
+//                                gameMapName,
+//                                gameMapSchematic,
+//                                playerLocations,
+//                                waitingLocation,
+//                                returnLobby,
+//                                coordinateSlot
+//                        );
+//
+//                        games.put(gameID, newGame);
+//
+//                        boolean creation = games.containsKey(gameID);
+//                        boolean construct = constructInstance(games.get(gameID));
+//
+//                        getLogger().info("first: " + creation + " second: " + construct);
+//
+//                        if (creation && construct) {
+//                            loadedGamesIDs.add(gameID);
+//                            found = true;
+//                        }
+//                    }
+//
+//                    break;
+//                }
+//            }
+//
+//                    if (!found) {
+//                        getLogger().info("GameManager: No game maps exists within the database.");
+//                    } else {
+//                        StringBuilder tempString = new StringBuilder();
+//                        getLogger().info("GameManager: Successfully loaded maps: ");
+//
+//                        for (int i = 0; i < loadedGamesIDs.size(); i++) {
+//                            tempString.append(loadedGamesIDs.get(i));
+//                            if (i + 1 != loadedGamesIDs.size()) {
+//                                tempString.append(", ");
+//                            }
+//                        }
+//
+//                        getLogger().info(String.valueOf(tempString));
+//                    }
+//        } catch (SQLException error) {
+//            error.printStackTrace();
+//        }
+//    }
 
     private boolean setupEnvironment() {
         File worldFolder = new File(Bukkit.getWorldContainer(), "Games");
