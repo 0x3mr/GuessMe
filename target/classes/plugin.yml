@@ -1,4 +1,0 @@
-name: GuessMe
-version: '1.0-SNAPSHOT'
-main: org.zeroxamr.guessMe.GuessMe
-api-version: '1.21'
